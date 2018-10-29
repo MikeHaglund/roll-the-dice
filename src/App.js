@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import './App.css'
+// import './App.css'
+import styled from 'styled-components'
+import { AppBar, Toolbar, Typography } from '@material-ui/core'
 
 const roll = (sides = 6) => {
   const min = 1
@@ -7,10 +9,50 @@ const roll = (sides = 6) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
+const DiceAppBar = styled(AppBar)`
+  background-color: red !important;
+`
+
+const Container = styled.section`
+  margin-top: 80px;
+`
+
+const DiceContainer = styled.section`
+  border: 1px solid #666;
+  padding: 16px;
+  margin: 8px;
+  background: #e6e6e6;
+`
+
+const DiceSides = styled.h3`
+  color: red;
+  padding: 0;
+  margin: 0;
+`
+
+const DiceResults = styled.section`
+  background: #e6e6e6;
+  padding: 3px;
+`
+
+const Button = styled.button`
+  text-transform: uppercase;
+  border: 1px solid #666;
+  background: #e6e6e6;
+  padding: 8px 12px;
+  margin-top: 16px;
+`
+const RollButton = styled(Button)`
+  background: darkorchid;
+  color: white;
+  font-weight: bold;
+`
+
+
 class Dice extends Component {
   
   state = {
-    rolled: null
+    rolled: null,
   }
   
   render() {
@@ -19,14 +61,24 @@ class Dice extends Component {
     // console.log(rolled)
     // console.log(sides)
     return (
-      <section>
-        <p>Number of Sides: {sides}</p>
-        <p>You rolled: {rolled}</p>
-        <button onClick={(e) => {
-          const result = roll(sides)
-          this.setState({ rolled: result })
-        }}>Roll</button>
-      </section>
+      <DiceContainer>
+        <DiceSides>
+          Sides: {sides}
+        </DiceSides>
+        {rolled && (
+          <DiceResults>
+            Rolled: {rolled}
+          </DiceResults>
+        )}
+        
+        
+        <RollButton
+          onClick={(e) => {
+            const result = roll(sides)
+            this.setState({ rolled: result })
+          }}
+        >Roll</RollButton>
+      </DiceContainer>
     )
   }
 }
@@ -34,10 +86,17 @@ class Dice extends Component {
 export default class extends Component {
   render() {
     return (
-      <div>
-        <Dice sides={6} />
-        <Dice sides={20} />
-      </div>
+      <section>
+        <DiceAppBar>
+          <Toolbar>
+            <Typography>My App</Typography>
+          </Toolbar>
+        </DiceAppBar>
+        <Container>
+          <Dice sides={6} />
+          <Dice sides={20} />
+        </Container>
+      </section>
     )
   }
 }
