@@ -1,28 +1,43 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
 
-class App extends Component {
+const roll = (sides = 6) => {
+  const min = 1
+  const max = Math.floor(sides)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+class Dice extends Component {
+  
+  state = {
+    rolled: null
+  }
+  
   render() {
+    const sides = this.props.sides
+    const rolled = this.state.rolled
+    // console.log(rolled)
+    // console.log(sides)
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <section>
+        <p>Number of Sides: {sides}</p>
+        <p>You rolled: {rolled}</p>
+        <button onClick={(e) => {
+          const result = roll(sides)
+          this.setState({ rolled: result })
+        }}>Roll</button>
+      </section>
+    )
   }
 }
 
-export default App;
+export default class extends Component {
+  render() {
+    return (
+      <div>
+        <Dice sides={6} />
+        <Dice sides={20} />
+      </div>
+    )
+  }
+}
